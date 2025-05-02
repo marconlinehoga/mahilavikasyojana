@@ -83,7 +83,7 @@
   <div class="container">
     <input type="text" id="name" placeholder="Name" required>
     <input type="tel" id="mobile" placeholder="Mobile Number" maxlength="10" pattern="\d{10}" required>
-    <button onclick="redirectToURL()">Received Money</button>
+    <button id="redirectButton" onclick="redirectToURL()">Received Money</button>
   </div>
 
   <!-- Firebase SDKs -->
@@ -91,7 +91,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
   <script>
-    // Your Firebase config
+    // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyCPm7u8Gw5IK1GuPVZ02pxr5tXG3ik7xoI",
       authDomain: "sbighsh.firebaseapp.com",
@@ -107,10 +107,16 @@
 
     let liveURL = "";
 
-    // Real-time Firestore listener for redirect URL
+    // Listen to Firestore changes
     db.collection("admin_settings").doc("live_link").onSnapshot((doc) => {
       if (doc.exists) {
-        liveURL = doc.data().url;
+        const data = doc.data();
+        liveURL = data.url || "";
+        const buttonName = data.name || "Received Money";
+        const btn = document.getElementById("redirectButton");
+        if (btn) {
+          btn.innerText = buttonName;
+        }
       }
     });
 
