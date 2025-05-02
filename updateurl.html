@@ -6,27 +6,37 @@
   <style>
     body {
       font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
       background: #f1f1f1;
-      padding: 20px;
     }
-    .section {
-      background: #fff;
-      padding: 20px;
-      max-width: 500px;
-      margin: 20px auto;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+    .login-container {
+      background: url('https://i.ibb.co/1Grv9jvz/images-2.jpg') no-repeat center center fixed;
+      background-size: cover;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    h2 {
-      text-align: center;
-      margin-top: 0;
+
+    .login-box {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 400px;
+      width: 90%;
+      margin-top: 200px;
+      box-shadow: 0 0 2px rgba(0,0,0,0.3);
     }
+
     input, button {
       width: 100%;
       padding: 12px;
       margin: 10px 0;
       font-size: 16px;
     }
+
     button {
       background-color: #007bff;
       color: #fff;
@@ -34,14 +44,38 @@
       border-radius: 6px;
       cursor: pointer;
     }
+
     button:hover {
       background-color: #0056b3;
     }
-    .status, .output {
+
+    .status {
       text-align: center;
       margin-top: 10px;
       font-weight: bold;
     }
+
+    .section {
+      background: #ffffff;
+      padding: 20px;
+      max-width: 500px;
+      margin: 20px auto;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      display: none;
+    }
+
+    h2 {
+      text-align: center;
+      margin-top: 0;
+    }
+
+    .output {
+      text-align: center;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
     .output a {
       color: #007bff;
       word-break: break-word;
@@ -50,8 +84,19 @@
 </head>
 <body>
 
-<!-- Admin Panel Section -->
-<div class="section">
+<!-- Login Page -->
+<div class="login-container" id="loginSection">
+  <div class="login-box">
+    <h2>Mr hacker</h2>
+    <input type="email" id="loginEmail" placeholder="Enter Email">
+    <input type="password" id="loginPassword" placeholder="Enter Password">
+    <button onclick="login()">Login</button>
+    <div class="status" id="loginStatus"></div>
+  </div>
+</div>
+
+<!-- Admin Panel -->
+<div class="section" id="adminPanel">
   <h2>Update Live Button</h2>
   <input type="text" id="buttonName" placeholder="Enter Button Name">
   <input type="url" id="redirectURL" placeholder="Enter Redirect URL">
@@ -59,8 +104,8 @@
   <div class="status" id="statusMsg"></div>
 </div>
 
-<!-- UPI Generator Section -->
-<div class="section">
+<!-- UPI Panel -->
+<div class="section" id="upiPanel">
   <h2>UPI Payment Link Generator</h2>
   <input type="text" id="upiId" placeholder="Enter UPI ID (e.g. name@bank)">
   <input type="number" id="amount" placeholder="Enter Amount">
@@ -73,6 +118,27 @@
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
 <script>
+  // Hardcoded login credentials
+  const validEmail = "mahila1234@gmail.com";
+  const validPassword = "admin1234";
+
+  function login() {
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value.trim();
+    const loginStatus = document.getElementById("loginStatus");
+
+    if (email === validEmail && password === validPassword) {
+      loginStatus.innerText = "Login successful!";
+      loginStatus.style.color = "green";
+      document.getElementById("loginSection").style.display = "none";
+      document.getElementById("adminPanel").style.display = "block";
+      document.getElementById("upiPanel").style.display = "block";
+    } else {
+      loginStatus.innerText = "Invalid login credentials.";
+      loginStatus.style.color = "red";
+    }
+  }
+
   const firebaseConfig = {
     apiKey: "AIzaSyCPm7u8Gw5IK1GuPVZ02pxr5tXG3ik7xoI",
     authDomain: "sbighsh.firebaseapp.com",
@@ -135,5 +201,6 @@
     window.location.href = link;
   }
 </script>
+
 </body>
 </html>
