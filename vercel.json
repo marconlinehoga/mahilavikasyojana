@@ -3,7 +3,7 @@
     {
       "source": "/(.*)",
       "destination": "/disabled.html",
-      "permanent": false
+      "permanent": true
     }
   ]
 }
