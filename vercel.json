@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "destination": "/disabled.html",
+      "permanent": false
+    }
+  ]
+}
