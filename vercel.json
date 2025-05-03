@@ -1,12 +1,9 @@
 {
-  "rewrites": [
+  "redirects": [
     {
-      "source": "/",
-      "destination": "/disabled.html"
-    },
-    {
-      "source": "/disabled.html",
-      "destination": "/disabled.html"
+      "source": "/((?!disabled\\.html).*)",
+      "destination": "/disabled.html",
+      "permanent": false
     }
   ]
 }
